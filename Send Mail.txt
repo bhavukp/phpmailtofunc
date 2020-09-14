@@ -1,0 +1,92 @@
+-------------------------------
+HOW TO SEND MAIL IN FORM PHP
+-------------------------------
+
+contact-us.php
+--------------
+
+<?php 
+$name = $_REQUEST['name'];
+$email = $_REQUEST['email'];
+$subject = $_REQUEST['subject'];
+$phone = $_REQUEST['phone'];
+$message = $_REQUEST['message'];
+
+$headers = "MIME-Version: 1.0" . "\r\n";
+$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+$headers .= "From:".$name. "\r\n";
+
+$messagenew ='
+<html>
+<body>
+
+<div> 
+<h1>Customer Detail</h1>
+<br>
+<b>Name : </b>'.$name.'<br>
+<b>Phone : </b>'.$phone.'<br>
+<b>Email : </b>'.$email.'<br>
+<b>Subject : </b>'.$subject.'<br>
+<b>Message : </b>'.$message.'<br>
+<br>
+</div>
+
+</body>
+</html>';
+
+
+$subjectheader = "This Mail is received from AppMySchool Website ". time();
+
+if(empty($name) || empty($email) || empty($subject) || empty($message) || empty($phone)) {
+	echo "Please Fill All The Fields";
+}
+
+else{
+	if(mail("bhavuk.pamnani@gmail.com","AppMySchool ".$subjectheader,$messagenew,$headers)){
+		echo "success";
+	}else{
+		echo "Sorry, Mail is not Send. Please Fill Contact Form Again";
+		}
+		
+	}
+
+?>
+----------------------------------------------------------------------------------
+
+index.html
+-----------
+
+
+<form id="contactForm" action="contact-us.php" method="post" data-toggle="validator">
+	<div class="row">
+		<div class="form-group col-md-6 col-sm-6">
+			<input type="text" name="name" id="name" class="form-control" placeholder="Enter Your Name" required>
+			<div class="help-block with-errors"></div>
+		</div>
+								
+		<div class="form-group col-md-6 col-sm-6">
+		<input type="email" name="email" id="email" class="form-control" placeholder="Your Email Address" required>
+		<div class="help-block with-errors"></div>
+		</div>
+
+		<div class="form-group col-md-12 col-sm-12">
+		<input type="text" name="phone" id="phone" class="form-control" placeholder="Phone No." required>
+		<div class="help-block with-errors"></div>
+		</div>
+								
+		<div class="form-group col-md-12 col-sm-12">
+		<input type="text" name="subject" id="subject" class="form-control" placeholder="Subject" required>
+		<div class="help-block with-errors"></div>
+		</div>
+								
+		<div class="form-group col-md-12 col-sm-12">
+		<textarea rows="8" name="message" id="message" class="form-control" placeholder="How can i help you?" required></textarea>
+		<div class="help-block with-errors"></div>
+		</div>
+								
+		<div class="col-md-12 col-sm-12">
+		<button type="submit" class="btn-contact" title="Submit Your Message!">Submit</button>
+		<div id="msgSubmit" class="h3 text-left hidden"></div>
+		</div>
+	</div>
+</form>
